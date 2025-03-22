@@ -3,5 +3,7 @@
 env
 venv
 environment
+docs
+chroma.sqlite3
 data
 
