@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+langchain
+langchain-openai
+langchain-community
+langchain-weaviate
+weaviate-client
+chromadb
+openai
+pydantic
+python-dotenv
+lark
