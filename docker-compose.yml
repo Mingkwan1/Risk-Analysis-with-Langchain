@@ -1,0 +1,56 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: juicecompany-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+    working_dir: /app/backend
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: juicecompany-frontend
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./frontend:/app/frontend
+    working_dir: /app/frontend
+    command: streamlit run app.py
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  # weaviate:
+  #   command:
+  #   - --host
+  #   - 0.0.0.0
+  #   - --port
+  #   - '8080'
+  #   - --scheme
+  #   - http
+  #   image: cr.weaviate.io/semitechnologies/weaviate:1.29.1
+  #   ports:
+  #   - 8080:8080
+  #   - 50051:50051
+  #   # volumes:
+  #   # - weaviate_data:/var/lib/weaviate
+  #   restart: on-failure:0
+  #   environment:
+  #     QUERY_DEFAULTS_LIMIT: 25
+  #     AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+  #     PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+  #     ENABLE_API_BASED_MODULES: 'true'
+  #     ENABLE_MODULES: 'text2vec-ollama,generative-ollama'
+  #     CLUSTER_HOSTNAME: 'node1'
