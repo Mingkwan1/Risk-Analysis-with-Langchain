@@ -4,7 +4,6 @@ import os, json
 class Load:
     def __init__(self):
         pass
-    ###Path Error
     def load(self):
         data_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
         

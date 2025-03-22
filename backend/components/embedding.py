@@ -12,8 +12,6 @@ import weaviate
 #2021_CFRESH file is in window1252
 #2023 KBS have an error char, iNCOMPLETE BLACKET and no report year at the end
 
-#Research more on vectordb!
-
 class Embed:
     def __init__(self):
         pass
