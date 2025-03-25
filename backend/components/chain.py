@@ -6,6 +6,7 @@ from components.embedding import Embed as emb
 class Chain:
     def __init__(self):
         pass
+    #Read under the hood
     def CreateChain(self, risk_text, retriever, memory):
         retriever=emb().emb(risk_text)
         qa = ConversationalRetrievalChain.from_llm(

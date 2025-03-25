@@ -30,6 +30,8 @@ class Embed:
         persist_directory = 'docs/chroma/'
         embedding = OpenAIEmbeddings()
 
+        #Save to statics
+
         #Weaviate vectordb
         ### Check if this shit work
         # client = weaviate.connect_to_local()
@@ -50,7 +52,7 @@ class Embed:
         retriever = vectordb
         return retriever
 
-        # # Create the SelfQueryRetriever
+        # Create the SelfQueryRetriever
         # retriever = SelfQueryRetriever.from_llm(
         #     llm=ChatOpenAI(),
         #     vectorstore=vectordb,
