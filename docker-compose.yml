@@ -12,11 +12,11 @@ services:
     command: uvicorn main:app --host 0.0.0.0 --port 8000
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
   frontend:
     build:
       context: ./frontend
@@ -29,8 +29,8 @@ services:
     working_dir: /app/frontend
     command: streamlit run app.py
     depends_on:
-      backend:
-        condition: service_healthy
+      - backend
+        # condition: service_healthy
 
   # weaviate:
   #   command:

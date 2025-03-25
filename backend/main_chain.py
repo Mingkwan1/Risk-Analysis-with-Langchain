@@ -15,7 +15,7 @@ _ = load_dotenv(find_dotenv()) # read local .env file
 
 
 # 1.2) LangSmith Connection
-client = weaviate.connect_to_local()
+# client = weaviate.connect_to_local()
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_ENDPOINT"] = "https://api.smith.langchain.com"
 # os.environ["LANGSMITH_PROJECT"]="JuiceComRisk"
@@ -42,7 +42,7 @@ query = "What are some financial risks of TVO"
 
 print(retriever.invoke("hi"))
 
-client.close()  # Free up resources
+# client.close()  # Free up resources
 #     ## 3.3) Creating the chain
 # qachain = chain()
 
