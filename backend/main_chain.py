@@ -3,6 +3,7 @@ from dotenv import load_dotenv, find_dotenv
 
 
 from components.load import Load as ld
+from components.load import Split as split
 from components.embedding import Embed as emb
 from components.memory import Mem as mem
 from components.chain import Chain as chain
@@ -23,24 +24,39 @@ _ = load_dotenv(find_dotenv()) # read local .env file
 # 1.3) Loading the json file 
 
 risk_texts = ld().load()
+# json_texts = ld().load_json()
 
-### 2.) Vector storing and Embedding ###
+# print(type(json_texts))
+# print(json_texts[0])
+# print(len(json_texts))
 
-#Research more on vectordb!
+# print(type(risk_texts))
+# print(risk_texts[0])
+# print(len(risk_texts))
 
-retriever = emb().emb(risk_texts)
+## 1.4) Splitting
 
-### 3.) Retreival Q&A ###
+texts = split().Rsplit(risk_texts)
 
-    ## 3.1) Memory
+# texts = split().jsonsplit(json_texts)
 
-# memory = mem().create_mem()
+# ### 2.) Vector storing and Embedding ###
 
-    ## 3.2) Query
+# #Research more on vectordb!
 
-query = "What are some financial risks of TVO"
+# retriever = emb().emb(risk_texts)
 
-print(retriever.invoke("hi"))
+# ### 3.) Retreival Q&A ###
+
+#     ## 3.1) Memory
+
+# # memory = mem().create_mem()
+
+#     ## 3.2) Query
+
+# query = "What are some financial risks of TVO"
+
+# print(retriever.invoke("hi"))
 
 # client.close()  # Free up resources
 #     ## 3.3) Creating the chain

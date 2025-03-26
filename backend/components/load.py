@@ -1,4 +1,7 @@
 from langchain.schema import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveJsonSplitter
+
 import os, json
 
 class Load:
@@ -32,7 +35,7 @@ class Load:
 
                 with open(file_path, 'r', encoding='utf-16') as file:
                     data = json.load(file)
-                    #print(data)
+                    # print(data)
 
                 # 1.4) Initialize a list to store the collected data
 
@@ -63,3 +66,50 @@ class Load:
                                         )
                                 risk_texts.append(doc)
         return risk_texts
+    
+    def load_json(self):
+        data_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
+        risk_texts = []
+
+        for file_name in os.listdir(data_dir):
+            # if file_name.endswith(".json"):
+            #     file_path = os.path.join(data_dir, file_name)
+            #     with open(file_path, 'r', encoding='utf-16') as file:
+            #         data = json.load(file)
+            #         # print(data)
+            #         risk_texts.append(data)
+                # with open("combined.json", "w") as f:
+                #     json.dump(risk_texts, f, indent=4)
+            with open("combined.json", 'r') as file:
+                risk_texts = json.load(file)
+        return(risk_texts)
+
+
+class Split():
+    def __init__(self):
+        pass
+    def jsonsplit(self, risk_texts):
+        JSONsplitter = RecursiveJsonSplitter(max_chunk_size=300)
+        docs = JSONsplitter.create_documents(risk_texts)
+        print(docs[0])
+        print("----------------")
+        print(docs[1])
+        print("----------------")
+        print([doc for doc in docs][:10], "...")
+        print("----------------")
+        return(docs)
+    
+    def Rsplit(self, risk_texts):
+        text_splitter = RecursiveCharacterTextSplitter(
+            # Set a really small chunk size, just to show.
+            chunk_size=300,
+            chunk_overlap=40,
+            length_function=len,
+            is_separator_regex=False,
+        )
+        print(type(risk_texts))
+        texts = text_splitter.split_documents(risk_texts)
+        # print(texts[0])
+        # print(texts[1])
+        # print(len(texts))
+        return(texts)
