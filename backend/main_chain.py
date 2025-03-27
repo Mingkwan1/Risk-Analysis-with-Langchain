@@ -40,11 +40,14 @@ texts = split().Rsplit(risk_texts)
 
 # texts = split().jsonsplit(json_texts)
 
-# ### 2.) Vector storing and Embedding ###
+### 2.) Vector storing and Embedding ###
 
-# #Research more on vectordb!
+retriever = emb().emb(risk_texts)
 
-# retriever = emb().emb(risk_texts)
+# query = "Hi"
+query = "What are some financial risks of TVO in 2022"
+ans = retriever.invoke(query)
+print(ans[0])
 
 # ### 3.) Retreival Q&A ###
 
@@ -54,7 +57,6 @@ texts = split().Rsplit(risk_texts)
 
 #     ## 3.2) Query
 
-# query = "What are some financial risks of TVO"
 
 # print(retriever.invoke("hi"))
 

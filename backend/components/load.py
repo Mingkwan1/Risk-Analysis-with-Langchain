@@ -107,8 +107,8 @@ class Split():
             length_function=len,
             is_separator_regex=False,
         )
-        print(type(risk_texts))
         texts = text_splitter.split_documents(risk_texts)
+        # print(type(risk_texts))
         # print(texts[0])
         # print(texts[1])
         # print(len(texts))
