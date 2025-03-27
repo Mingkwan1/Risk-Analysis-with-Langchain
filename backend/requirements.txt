@@ -3,9 +3,11 @@ uvicorn
 langchain
 langchain-openai
 langchain-community
-faiss-cpu
+langchain-chroma
+langgraph
 chromadb
 openai
 pydantic
 python-dotenv
 lark
+IPython

@@ -1,7 +1,5 @@
-import os
+from components.embedding import Embed as emb
+from components.retriever import Retriever as retri
 
-path = "C:/Users/(Ming)MingkwanRattan/OneDrive - STelligence Co., Ltd/Play/Langchain/JuiceCompany/backend/data"
-if not os.path.exists(path):
-    print(f"The directory does not exist: {path}")
-else:
-    print(f"The directory exists: {path}")
+vectordb = emb().load_cached()
+retriever = retri().CreateRetriever(vectordb)

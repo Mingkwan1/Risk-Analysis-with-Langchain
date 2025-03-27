@@ -1,12 +1,6 @@
 from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import Chroma
-from langchain.chains.query_constructor.schema import AttributeInfo
-from langchain.retrievers import SelfQueryRetriever
-from langchain_openai import ChatOpenAI
-from langchain_core.vectorstores import InMemoryVectorStore
-from langchain_community.vectorstores import FAISS
-from langchain_community.docstore.in_memory import InMemoryDocstore
-from langchain_community.vectorstores import FAISS
+from langchain_chroma import Chroma
+import time, os
 
 ### 2.) Vector storing and Embedding ###
 
@@ -15,57 +9,31 @@ from langchain_community.vectorstores import FAISS
 
 class Embed:
     def __init__(self):
-        pass
-
-    #Embedding
-
+        self.embedding = OpenAIEmbeddings()
+        self.persist_directory = 'docs/chroma/'
     def emb(self, risk_texts):
-        # Define metadata fields
-        metadata_field_info = [
-            AttributeInfo(name="year", description="The year of the document", type="string"),
-            AttributeInfo(name="company", description="The company of the document", type="string"),
-            AttributeInfo(name="part", description="The part one or two of the document", type="integer"),
-            AttributeInfo(name="Category", description="The category of the document", type="string"),
-            AttributeInfo(name="Risk_Detail", description="The risk detail of the document", type="string"),
-            AttributeInfo(name="Risk_Topic", description="The risk topic of the document", type="string"),
-        ]
-        self.risk_texts = risk_texts
-        embedding = OpenAIEmbeddings()
-
+        start_time = time.time()
         #Save to statics
 
         ###Chroma vectordb
-        # persist_directory = 'docs/chroma/'
-        vectordb = Chroma.from_documents(documents= risk_texts,
-                                #   persist_directory=persist_directory, 
-                                  embedding=embedding)
+        vectordb = Chroma.from_documents(documents = risk_texts,
+                                  persist_directory=self.persist_directory, 
+                                  embedding=self.embedding)
         
         ## Can be change to FAISS for small and Pinecone for large
-
-        # vectordb = FAISS.from_documents(
-        # documents=risk_texts, 
-        # embedding=embedding,)
-        
-        # vectordb.add_documents(risk_texts)
-
-        # retriever = vectordb
-
-        # Create the SelfQueryRetriever
-        retriever = SelfQueryRetriever.from_llm(
-            llm=ChatOpenAI(),
-            vectorstore=vectordb,
-            document_contents="Documents about various type of risks in many companies",
-            metadata_field_info=metadata_field_info,
-        )
-
-        return retriever
-
-    def check(self, query):
-        pass
-        # self.query = query
-        # ans = vectordb.similarity_search(query,k=3)
-        # # Print the results
-        # for result in ans:
-        #     print(f"Page Content: {result.page_content}")
-        #     print(f"Metadata: {result.metadata}")
-        #     print("---")
+        elapsed_time = time.time() - start_time  # Calculate elapsed time
+        print(f"Embedding completed in {elapsed_time:.2f} seconds")
+        return vectordb
+    
+    def load_cached(self):
+        """Load pre-computed embeddings (fast)"""
+        if os.path.exists(self.persist_directory):
+            start = time.time()
+            self.vectordb = Chroma(
+                persist_directory=self.persist_directory,
+                embedding_function=self.embedding
+            )
+            print(f"Loaded cached embeddings in {time.time()-start:.2f}s")
+            return self.vectordb
+        else:
+            raise FileNotFoundError("No cached embeddings found. Run embed_and_save() first")

@@ -1,29 +1,30 @@
-import os, weaviate
-from dotenv import load_dotenv, find_dotenv
-
+import os
+from dotenv import load_dotenv
 
 from components.load import Load as ld
 from components.load import Split as split
 from components.embedding import Embed as emb
+from components.retriever import Retriever
 from components.memory import Mem as mem
+from components.prompt import Prompt as prm
 from components.chain import Chain as chain
+from components.rag.graph import Graph as graph
 
 ### 1.) Setting Up ###
 
 # 1.1) Load Environment
 
-_ = load_dotenv(find_dotenv()) # read local .env file
-
+load_dotenv() #
 
 # 1.2) LangSmith Connection
-# client = weaviate.connect_to_local()
+
 # os.environ["LANGSMITH_TRACING"] = "true"
 # os.environ["LANGSMITH_ENDPOINT"] = "https://api.smith.langchain.com"
 # os.environ["LANGSMITH_PROJECT"]="JuiceComRisk"
 
 # 1.3) Loading the json file 
 
-risk_texts = ld().load()
+# risk_texts = ld().load()
 # json_texts = ld().load_json()
 
 # print(type(json_texts))
@@ -36,18 +37,31 @@ risk_texts = ld().load()
 
 ## 1.4) Splitting
 
-texts = split().Rsplit(risk_texts)
+# risk_texts = split().Rsplit(risk_texts)
 
 # texts = split().jsonsplit(json_texts)
 
 ### 2.) Vector storing and Embedding ###
 
-retriever = emb().emb(risk_texts)
+# vectordb = emb().load_cached()
+# retriever = Retriever().CreateRetriever(vectordb)
 
-# query = "Hi"
-query = "What are some financial risks of TVO in 2022"
-ans = retriever.invoke(query)
-print(ans[0])
+query = "What are some financial risks of APURE in 2022?"
+# ans = retriever.invoke(query)
+# print(ans)
+
+# prompt = prm().create_prompt()
+
+# example_messages = prompt.invoke(
+#     {"context": "(context goes here)", "question": "(question goes here)"}
+# ).to_messages()
+
+# assert len(example_messages) ==5 1
+# print(example_messages[0].content)
+
+# graph().show()
+# graph().stream(query)
+result = graph().generate(query)
 
 # ### 3.) Retreival Q&A ###
 
@@ -60,7 +74,6 @@ print(ans[0])
 
 # print(retriever.invoke("hi"))
 
-# client.close()  # Free up resources
 #     ## 3.3) Creating the chain
 # qachain = chain()
 

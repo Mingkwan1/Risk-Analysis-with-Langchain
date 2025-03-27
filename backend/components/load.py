@@ -1,13 +1,16 @@
 from langchain.schema import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_text_splitters import RecursiveJsonSplitter
+import time
 
 import os, json
 
 class Load:
     def __init__(self):
         pass
+    
     def load(self):
+        start_time = time.time()  # Start timer
         data_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
         
         risk_texts = []
@@ -65,6 +68,8 @@ class Load:
                                             metadata=metadata
                                         )
                                 risk_texts.append(doc)
+        elapsed_time = time.time() - start_time  # Calculate elapsed time
+        print(f"Loading completed in {elapsed_time:.2f} seconds")
         return risk_texts
     
     def load_json(self):
@@ -100,8 +105,8 @@ class Split():
         return(docs)
     
     def Rsplit(self, risk_texts):
+        start_time = time.time()
         text_splitter = RecursiveCharacterTextSplitter(
-            # Set a really small chunk size, just to show.
             chunk_size=300,
             chunk_overlap=40,
             length_function=len,
@@ -112,4 +117,6 @@ class Split():
         # print(texts[0])
         # print(texts[1])
         # print(len(texts))
+        elapsed_time = time.time() - start_time  # Calculate elapsed time
+        print(f"Splitting completed in {elapsed_time:.2f} seconds")
         return(texts)
