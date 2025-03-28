@@ -21,7 +21,7 @@ def retrieve(state: State):
 def generate(state: State):
     docs_content = "\n\n".join(doc.page_content for doc in state["context"])
     messages = prompt.invoke({"question": state["question"], "context": docs_content})
-    # print("messages:", messages)
+    print("messages:", messages)
     llm=ChatOpenAI()
     response = llm.invoke(messages)
     return {"answer": response.content}

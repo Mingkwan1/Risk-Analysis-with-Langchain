@@ -15,7 +15,6 @@ if st.button("Ask"):
         response = requests.post(f"{BACKEND_URL}/ask", json={"query": query})
         if response.status_code == 200:
             # answer = response.json().get("answer", "No answer found.")
-            # st.write(f"**Answer:** {answer}")
             st.write(response.json())
         else:
             st.error("Failed to get a response from the server.")

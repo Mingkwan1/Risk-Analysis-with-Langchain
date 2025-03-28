@@ -1,5 +1,10 @@
-from components.embedding import Embed as emb
-from components.retriever import Retriever as retri
+###Functional Test 
+##Website
 
-vectordb = emb().load_cached()
-retriever = retri().CreateRetriever(vectordb)
+#Pass
+
+#1.) Ask about specific risks in each year?
+
+#Pass
+
+#2.) 

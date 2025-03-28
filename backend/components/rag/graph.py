@@ -1,5 +1,6 @@
 from langgraph.graph import START, StateGraph
 from IPython.display import Image, display
+from langgraph.checkpoint.memory import MemorySaver
 
 from components.rag.state import State
 from components.rag.nodes import retrieve, generate
@@ -9,9 +10,12 @@ from pathlib import Path
 
 class Graph():
     def __init__(self):
+        self.memory = MemorySaver()
         self.graph_builder = StateGraph(State).add_sequence([retrieve, generate])
         self.graph_builder.add_edge(START, "retrieve")
-        self.graph = self.graph_builder.compile()
+        self.graph = self.graph_builder.compile(
+            # checkpointer=self.memory
+            )
 
     def show(self):
         mermaid_png = self.graph.get_graph().draw_mermaid_png()
@@ -20,7 +24,10 @@ class Graph():
 
     def generate(self, query):
         start_time = time.time()
-        result = self.graph.invoke({"question": query})
+        self.config = {"configurable": {"thread_id": "1"}}
+        result = self.graph.invoke({"question": query}
+                                #    , self.config
+                                   )
         # print(f'Context: {result["context"]}\n\n')
         # print("---------------------------------------------------")
         print(f'Answer: {result["answer"]}')

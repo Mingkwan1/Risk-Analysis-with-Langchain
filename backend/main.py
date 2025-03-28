@@ -1,11 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from dotenv import load_dotenv, find_dotenv
-from components.load import Load as ld
-from components.embedding import Embed as emb
-from components.retriever import Retriever as retri
-from components.memory import Mem as mem
-from components.chain import Chain
+from dotenv import load_dotenv
 from components.rag.graph import Graph as LLMgraph
 
 import uvicorn
@@ -14,7 +9,7 @@ app = FastAPI()
 
 #Intilizing Components
 
-_ = load_dotenv(find_dotenv()) # read local .env file
+load_dotenv() # read local .env file
 
 graph = LLMgraph()
 
