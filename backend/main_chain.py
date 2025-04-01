@@ -46,7 +46,8 @@ load_dotenv() #
 # vectordb = emb().load_cached()
 # retriever = Retriever().CreateRetriever(vectordb)
 
-query = "What are some financial risks of APURE in 2022?"
+query = "What are some operational risks of APURE in 2019?"
+# query = "Hi!how are you"
 # ans = retriever.invoke(query)
 # print(ans)
 
@@ -61,21 +62,14 @@ query = "What are some financial risks of APURE in 2022?"
 
 # graph().show()
 # graph().stream(query)
-result = graph().generate(query)
+result = graph().stream(query)
+# graph().show()
 
 # ### 3.) Retreival Q&A ###
 
 #     ## 3.1) Memory
 
 # # memory = mem().create_mem()
-
-#     ## 3.2) Query
-
-
-# print(retriever.invoke("hi"))
-
-#     ## 3.3) Creating the chain
-# qachain = chain()
 
 #     ## 3.3) Running the chain
 # result = qachain.Ans_QA(risk_texts, query, retriever, memory)
