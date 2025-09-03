@@ -1,7 +1,7 @@
 # Risk-Analysis-with-Langchain
-A full stack system for risk analysis of companies across several years using Langchain framework. It utilize Streamlit for the frontend, and FastAPI for backend Swagger.
+A full stack system for risk analysis of companies across several years using Langchain framework. It utilize Streamlit for the frontend, and FastAPI for backend Swagger. This project is develop to help enterprise calculate their internal organization risks.
 
-## Setup
+## Setup 
 
 1. Clone the repository:
    ```sh
